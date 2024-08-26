@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Beatbox to Drum Midi</title>
+
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">AI Beatbox to Drum Midi</div>
+        <div class="content">
+            <div class="sidebar">
+                <div class="sidebar-content">
+                        <h1>Settings</h1>
+                        <form method="POST" action="{{ url_for('process') }}" id="convert-form">
+                            <div class="unit-container">
+                                <p>Quantize</p>
+                                <input class="item" type="checkbox" id="quantize" name="quantize">
+                            </div>
+                            <div class="unit-container">
+                                <p>BPM</p>
+                                <input class="pixels-to-unit" id="bpm" type="number" name="bpm" value="120">
+                            </div>
+                            <div>
+                                <p>Drum Demo Soundfont</p>
+                                <select name="sound" id="">
+                                    <option value="realistic">Realistic</option>
+                                    <option value="trap">Trap</option>
+                                    <option value="jazz">Jazz</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="unit-container">
+                                <button type="submit">Convert to midi</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="main-content-header">
+                    <form class="upload-form" id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+                        <input class="file-input" id="file-input" type="file" name="file" required>
+                        <button class="upload-button" type="submit">Upload</button>
+                    </form>
+                </div>
+                <div class="image-container" id="image-container">
+                    <div class="waveform">
+                        <img src="{{ image_url }}" alt="Waveform Image">
+                    </div>                    
+                    <div class="midi">
+                        <audio controls>
+                            <source src="{{ audio_url }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <img src="{{ midi_img_url }}" alt="Midi Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

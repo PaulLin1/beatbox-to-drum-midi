@@ -1,0 +1,1 @@
+print(round(3 * 4) / 4)

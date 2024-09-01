@@ -49,10 +49,12 @@ def plot_spectrogram(specgram, title=None, ylabel="freq_bin", ax=None):
     ax.imshow(librosa.power_to_db(specgram), origin="lower", aspect="auto", interpolation="nearest")
 
 def process_one_shot(file_path):
-    # return shape is 1, 257, 8
+    # Load and resample the audio
     waveform, sample_rate = torchaudio.load(file_path)
     waveform_mono = waveform.mean(dim=0, keepdim=True)
     resampled_waveform = torchaudio.functional.resample(waveform_mono, sample_rate, 16000)
+
+    # Pad or trim the audio to a fixed length
     target_length = 2000
     current_length = resampled_waveform.size(1)
     if current_length < target_length:
@@ -61,10 +63,22 @@ def process_one_shot(file_path):
     else:
         padded_waveform = resampled_waveform[:, :target_length]
 
-    spectrogram_transform = T.Spectrogram(n_fft=512)
+    # Normalize the waveform
+    padded_waveform = padded_waveform / padded_waveform.abs().max()
+
+    # Create spectrogram
+    spectrogram_transform = T.Spectrogram(n_fft=512, normalized=True)
     spectrogram = spectrogram_transform(padded_waveform)
 
-    return spectrogram
+    # Apply log-scaling to the spectrogram
+    spectrogram = torch.log1p(spectrogram)
+
+    # Normalize the spectrogram
+    mean = spectrogram.mean()
+    std = spectrogram.std()
+    normalized_spectrogram = (spectrogram - mean) / (std + 1e-10)
+
+    return normalized_spectrogram
 
 def process_full_loop(file_path):
     waveform, sample_rate = torchaudio.load(file_path)

@@ -13,29 +13,32 @@
         <div class="content">
             <div class="sidebar">
                 <div class="sidebar-content">
-                        <h1>Settings</h1>
-                        <form method="POST" action="{{ url_for('process') }}" id="convert-form">
-                            <div class="unit-container">
-                                <p>Quantize</p>
-                                <input class="item" type="checkbox" id="quantize" name="quantize">
-                            </div>
-                            <div class="unit-container">
-                                <p>BPM</p>
-                                <input class="pixels-to-unit" id="bpm" type="number" name="bpm" value="120">
-                            </div>
-                            <div>
-                                <p>Drum Demo Soundfont</p>
-                                <select name="sound" id="">
-                                    <option value="realistic">Realistic</option>
-                                    <option value="trap">Trap</option>
-                                    <option value="jazz">Jazz</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="unit-container">
-                                <button type="submit">Convert to midi</button>
-                            </div>
-                        </form>
+                    <h1>Settings</h1>
+                    <form method="POST" action="{{ url_for('process') }}" id="convert-form">
+                        <div class="unit-container">
+                            <p>Quantize</p>
+                            <input class="item" type="checkbox" id="quantize" name="quantize">
+                        </div>
+                        <div class="unit-container">
+                            <p>BPM</p>
+                            <input class="pixels-to-unit" id="bpm" type="number" name="bpm" value="120">
+                        </div>
+                        <div>
+                            <p>Drum Demo Soundfont</p>
+                            <select name="sound" id="">
+                                <option value="realistic">Realistic</option>
+                                <option value="trap">Trap</option>
+                                <option value="jazz">Jazz</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="unit-container">
+                            <button type="submit">Convert to midi</button>
+                        </div>
+                    </form>
+                    <form action="/download-midi" method="post">
+                        <button type="submit">Download Midi File</button>
+                    </form>
                 </div>
             </div>
             <div class="main-content">
